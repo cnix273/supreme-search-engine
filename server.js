@@ -1,9 +1,10 @@
 // Dependencies
 // ============
 const express        = require('express');
+const exphbs         = require('express-handlebars');
+
 // const fs             = require('fs');
 const path           = require('path');
-const exphbs         = require('express-handlebars');
 const debug          = require('debug')('express-example');
 
 const application    = require('./routes/application');
@@ -20,10 +21,11 @@ var PORT = process.env.PORT || 8080;
 app.set('views', path.join(__dirname, 'views'));
 
 // // Set up handlebars
-app.engine('handlebars', exphbs({
-    defaultLayout: 'main'
+app.engine('hbs', exphbs({
+    defaultLayout: 'main',
+    extname: 'hbs'
 }));
-app.set('view engine', 'handlebars');
+app.set('view engine', 'hbs');
 
 // .env configuration
 require('dotenv').config();
@@ -36,7 +38,7 @@ app.use(express.json());
 // app.use('/', routes);
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', application);
+app.use('/', application);
 // app.use('/users', users);
 
 // // catch 404 and forward to error handler
